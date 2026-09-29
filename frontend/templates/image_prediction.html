@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Medical Image Analysis — MedPredict</title>
+  <meta name="description" content="Upload X-ray, MRI, or CT scan images for AI-powered CNN disease detection."/>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo"><div class="logo-icon">🧬</div><span class="logo-text">MedPredict</span></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Main</div>
+      <a class="nav-item" href="/dashboard.html" data-page="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a class="nav-item" href="/disease_prediction.html" data-page="disease_prediction.html"><span class="nav-icon">🧬</span> Disease Prediction</a>
+      <a class="nav-item" href="/image_prediction.html" data-page="image_prediction.html"><span class="nav-icon">🔬</span> Image Analysis</a>
+      <a class="nav-item" href="/upload_report.html" data-page="upload_report.html"><span class="nav-icon">📄</span> Report Analysis</a>
+      <div class="nav-section-title">AI Tools</div>
+      <a class="nav-item" href="/chatbot.html" data-page="chatbot.html"><span class="nav-icon">💬</span> AI Chatbot</a>
+      <a class="nav-item" href="/doctor_recommendation.html" data-page="doctor_recommendation.html"><span class="nav-icon">👨‍⚕️</span> Doctor Finder</a>
+      <a class="nav-item" href="/health_tips.html" data-page="health_tips.html"><span class="nav-icon">💡</span> Health Tips</a>
+      <a class="nav-item" href="/analytics.html" data-page="analytics.html"><span class="nav-icon">📊</span> Risk Analytics</a>
+      <div class="nav-section-title">Account</div>
+      <a class="nav-item" href="/profile.html" data-page="profile.html"><span class="nav-icon">👤</span> Profile</a>
+      <a class="nav-item" href="#" data-logout><span class="nav-icon">🚪</span> Logout</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar"></div>
+        <div class="user-info"><div class="user-name sidebar-username">User</div><div class="user-role">Patient</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="topbar">
+      <span class="topbar-title">🔬 Medical Image Analysis</span>
+      <div class="topbar-actions">
+        <span class="badge badge-purple">🧠 CNN Model</span>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;">
+
+        <!-- Upload Panel -->
+        <div>
+          <div class="card mb-3">
+            <h3 class="mb-1">Supported Scan Types</h3>
+            <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:0.75rem;">
+              <span class="badge badge-cyan">🩻 X-Ray</span>
+              <span class="badge badge-purple">🧲 MRI</span>
+              <span class="badge badge-orange">🔍 CT Scan</span>
+              <span class="badge badge-green">🦠 Skin Image</span>
+            </div>
+            <p class="text-sm text-muted mt-2">Formats: JPG, PNG, BMP, TIFF. Max size: 20 MB.</p>
+          </div>
+
+          <div class="card">
+            <h3 class="mb-3">Upload Medical Image</h3>
+            <form id="imageForm">
+              <div class="file-drop" id="dropZone">
+                <div class="file-drop-icon">🩻</div>
+                <p class="drop-label" style="font-weight:600;margin-bottom:0.5rem;">Drag & drop or click to upload</p>
+                <p class="text-sm text-muted">X-Ray · MRI · CT Scan · Skin Image</p>
+                <input type="file" id="imageFile" accept="image/*"/>
+              </div>
+              <div id="imagePreview" class="mt-2"></div>
+              <button type="submit" class="btn btn-primary btn-full btn-lg mt-3">
+                🧠 Analyze with AI
+              </button>
+            </form>
+          </div>
+
+          <!-- How it works -->
+          <div class="card mt-3">
+            <h4 class="mb-2">🔬 CNN Pipeline</h4>
+            <div style="display:flex;flex-direction:column;gap:0.4rem;">
+              <div class="explanation-item">1. Image uploaded and preprocessed (resize, normalize)</div>
+              <div class="explanation-item">2. Features extracted via Convolutional layers</div>
+              <div class="explanation-item">3. Classification via fully-connected layers</div>
+              <div class="explanation-item">4. Confidence score and disease label returned</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results Panel -->
+        <div>
+          <div class="card mb-3" style="background:linear-gradient(135deg,rgba(139,92,246,0.06),rgba(0,229,255,0.04));border-color:rgba(139,92,246,0.2);">
+            <h3 class="mb-2">⚕️ Detectable Conditions</h3>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:0.5rem;">
+              <div class="explanation-item">🫁 Pneumonia</div>
+              <div class="explanation-item">🦠 Tuberculosis</div>
+              <div class="explanation-item">❤️ Cardiomegaly</div>
+              <div class="explanation-item">🫀 Pleural Effusion</div>
+              <div class="explanation-item">🦴 Fractures</div>
+              <div class="explanation-item">🩺 Skin Lesions</div>
+            </div>
+          </div>
+
+          <div id="imgResult" class="hidden"></div>
+
+          <div class="card mt-3">
+            <h4 class="mb-2">⚠️ Disclaimer</h4>
+            <p class="text-sm text-muted">This AI image analysis tool is for <strong>research and educational purposes only</strong>. It does not replace clinical radiological evaluation. All results must be verified by a qualified radiologist or physician before clinical use.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="/static/js/app.js"></script>
+</body>
+</html>

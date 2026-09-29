@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Medical Report Analysis — MedPredict</title>
+  <meta name="description" content="Upload or paste medical report text for AI-powered NLP analysis, key finding extraction, and lab value detection."/>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo"><div class="logo-icon">🧬</div><span class="logo-text">MedPredict</span></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Main</div>
+      <a class="nav-item" href="/dashboard.html" data-page="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a class="nav-item" href="/disease_prediction.html" data-page="disease_prediction.html"><span class="nav-icon">🧬</span> Disease Prediction</a>
+      <a class="nav-item" href="/image_prediction.html" data-page="image_prediction.html"><span class="nav-icon">🔬</span> Image Analysis</a>
+      <a class="nav-item" href="/upload_report.html" data-page="upload_report.html"><span class="nav-icon">📄</span> Report Analysis</a>
+      <div class="nav-section-title">AI Tools</div>
+      <a class="nav-item" href="/chatbot.html" data-page="chatbot.html"><span class="nav-icon">💬</span> AI Chatbot</a>
+      <a class="nav-item" href="/doctor_recommendation.html" data-page="doctor_recommendation.html"><span class="nav-icon">👨‍⚕️</span> Doctor Finder</a>
+      <a class="nav-item" href="/health_tips.html" data-page="health_tips.html"><span class="nav-icon">💡</span> Health Tips</a>
+      <a class="nav-item" href="/analytics.html" data-page="analytics.html"><span class="nav-icon">📊</span> Risk Analytics</a>
+      <div class="nav-section-title">Account</div>
+      <a class="nav-item" href="/profile.html" data-page="profile.html"><span class="nav-icon">👤</span> Profile</a>
+      <a class="nav-item" href="#" data-logout><span class="nav-icon">🚪</span> Logout</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar"></div>
+        <div class="user-info"><div class="user-name sidebar-username">User</div><div class="user-role">Patient</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="topbar">
+      <span class="topbar-title">📄 Medical Report Analysis</span>
+      <div class="topbar-actions">
+        <span class="badge badge-orange">📝 NLP + OCR Engine</span>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;">
+
+        <!-- Input Panel -->
+        <div>
+          <div class="card mb-3">
+            <h3 class="mb-1">What can be analyzed?</h3>
+            <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.75rem;">
+              <span class="badge badge-cyan">Lab Reports</span>
+              <span class="badge badge-purple">Blood Tests</span>
+              <span class="badge badge-green">Discharge Summary</span>
+              <span class="badge badge-orange">Radiology Reports</span>
+              <span class="badge badge-cyan">Doctor Notes</span>
+              <span class="badge badge-purple">Pathology Reports</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="mb-3">Paste or Type Report Text</h3>
+            <form id="reportForm">
+              <div class="form-group">
+                <label>Medical Report Content</label>
+                <textarea id="reportText" name="text" rows="12"
+                  placeholder="Paste your medical report text here...&#10;&#10;Example:&#10;Patient: John Doe, Age: 45&#10;Date: 2026-08-01&#10;&#10;LABORATORY RESULTS&#10;Glucose: 148 mg/dL (High)&#10;HbA1c: 7.2% (Elevated)&#10;Total Cholesterol: 240 mg/dL (High)&#10;HDL: 42 mg/dL&#10;LDL: 168 mg/dL (Elevated)&#10;Triglycerides: 180 mg/dL&#10;&#10;IMPRESSION: Diabetic patient with dyslipidemia. Recommend dietary modification and medication review."></textarea>
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm mb-2" onclick="loadSampleReport()">📋 Load Sample Report</button>
+              <button type="submit" class="btn btn-primary btn-full btn-lg">
+                🔍 Analyze Report
+              </button>
+            </form>
+          </div>
+
+          <div class="card mt-3">
+            <h4 class="mb-2">🔬 NLP Analysis Pipeline</h4>
+            <div style="display:flex;flex-direction:column;gap:0.4rem;">
+              <div class="explanation-item">1. Text tokenization and sentence splitting</div>
+              <div class="explanation-item">2. Lab value extraction (Glucose, HbA1c, Cholesterol…)</div>
+              <div class="explanation-item">3. Abnormal keyword detection (High, Elevated, Critical…)</div>
+              <div class="explanation-item">4. Flagged findings ranked by clinical importance</div>
+              <div class="explanation-item">5. Summary generated from key findings</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results Panel -->
+        <div>
+          <div id="reportResult" class="hidden"></div>
+
+          <div class="card" id="reportPlaceholder">
+            <div class="text-center" style="padding:3rem 1rem;">
+              <div style="font-size:4rem;margin-bottom:1rem;opacity:0.4;">📄</div>
+              <h3 class="mb-2">Awaiting Report</h3>
+              <p class="text-muted">Paste your medical report text and click <strong>Analyze</strong> to extract key findings, lab values, and flagged items.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="/static/js/app.js"></script>
+<script>
+function loadSampleReport() {
+  document.getElementById('reportText').value = `PATIENT REPORT
+Name: John Doe | Age: 45 | Date: 2026-08-01
+
+LABORATORY FINDINGS:
+Fasting Glucose: 148 mg/dL (High - Normal: 70-100)
+HbA1c: 7.2% (Elevated - Normal: <5.7%)
+Total Cholesterol: 242 mg/dL (High - Normal: <200)
+HDL Cholesterol: 38 mg/dL (Low - Normal: >40)
+LDL Cholesterol: 170 mg/dL (Elevated - Normal: <100)
+Triglycerides: 195 mg/dL (Borderline High)
+Blood Pressure: 142/88 mmHg (Elevated)
+Creatinine: 1.3 mg/dL (Borderline High)
+eGFR: 72 mL/min (Slightly Decreased)
+
+IMPRESSION:
+Type 2 Diabetes Mellitus - poorly controlled.
+Dyslipidemia with elevated LDL and low HDL.
+Hypertension Stage 1.
+Mild renal impairment - monitor closely.
+
+RECOMMENDATIONS:
+Metformin 500mg twice daily. Low glycemic diet.
+Statin therapy for cholesterol management.
+ACE inhibitor for blood pressure control.
+Follow-up in 3 months with repeat labs.`;
+}
+
+// Extend displayReportResult to show lab values table
+const _origDisplayReportResult = window.displayReportResult || function(){};
+document.addEventListener('DOMContentLoaded', () => {
+  // Override to also hide placeholder
+  const origInit = window.initUploadReport;
+  if (origInit) origInit();
+});
+
+// Hide placeholder when result is shown
+document.getElementById('reportForm')?.addEventListener('submit', () => {
+  setTimeout(() => {
+    const result = document.getElementById('reportResult');
+    if (result && !result.classList.contains('hidden')) {
+      document.getElementById('reportPlaceholder').style.display = 'none';
+    }
+  }, 2000);
+});
+</script>
+</body>
+</html>

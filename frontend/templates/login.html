@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Sign In — MedPredict</title>
+  <meta name="description" content="Sign in or create your MedPredict account to access AI-powered disease prediction tools."/>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+</head>
+<body>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <div class="logo-ring">🧬</div>
+        <h2>MedPredict</h2>
+        <p>AI-Powered Medical Insights</p>
+      </div>
+
+      <!-- Tab Switcher -->
+      <div class="tab-switcher">
+        <button class="tab-btn active" id="loginTab">Sign In</button>
+        <button class="tab-btn" id="registerTab">Register</button>
+      </div>
+
+      <!-- Alert -->
+      <div id="authAlert"></div>
+
+      <!-- Login Form -->
+      <form id="loginFormEl">
+        <div class="form-group">
+          <label for="loginUsername">Username</label>
+          <input type="text" id="loginUsername" name="username" placeholder="Enter your username" required autocomplete="username"/>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" name="password" placeholder="Enter your password" required autocomplete="current-password"/>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full btn-lg" style="margin-top:0.5rem;">
+          🔐 Sign In
+        </button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="registerFormEl" class="hidden">
+        <div class="form-group">
+          <label for="regUsername">Username</label>
+          <input type="text" id="regUsername" name="username" placeholder="Choose a username" required autocomplete="username"/>
+        </div>
+        <div class="form-group">
+          <label for="regPassword">Password</label>
+          <input type="password" id="regPassword" name="password" placeholder="Create a password (min 6 chars)" required autocomplete="new-password"/>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full btn-lg" style="margin-top:0.5rem;">
+          ✨ Create Account
+        </button>
+      </form>
+
+      <div class="divider">or</div>
+      <p class="text-center text-xs text-muted">
+        By continuing you agree to our Terms of Service.<br/>
+        ⚕️ For research and informational use only.
+      </p>
+      <div class="text-center mt-2">
+        <a href="/" class="text-sm" style="color:var(--accent-cyan); text-decoration:none;">← Back to Home</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

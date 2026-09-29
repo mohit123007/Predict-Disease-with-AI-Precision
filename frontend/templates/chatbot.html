@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>AI Medical Chatbot — MedPredict</title>
+  <meta name="description" content="Ask our AI medical chatbot health questions. Get knowledge-based answers on diseases, symptoms, diet, and lifestyle."/>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo"><div class="logo-icon">🧬</div><span class="logo-text">MedPredict</span></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Main</div>
+      <a class="nav-item" href="/dashboard.html" data-page="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a class="nav-item" href="/disease_prediction.html" data-page="disease_prediction.html"><span class="nav-icon">🧬</span> Disease Prediction</a>
+      <a class="nav-item" href="/image_prediction.html" data-page="image_prediction.html"><span class="nav-icon">🔬</span> Image Analysis</a>
+      <a class="nav-item" href="/upload_report.html" data-page="upload_report.html"><span class="nav-icon">📄</span> Report Analysis</a>
+      <div class="nav-section-title">AI Tools</div>
+      <a class="nav-item" href="/chatbot.html" data-page="chatbot.html"><span class="nav-icon">💬</span> AI Chatbot</a>
+      <a class="nav-item" href="/doctor_recommendation.html" data-page="doctor_recommendation.html"><span class="nav-icon">👨‍⚕️</span> Doctor Finder</a>
+      <a class="nav-item" href="/health_tips.html" data-page="health_tips.html"><span class="nav-icon">💡</span> Health Tips</a>
+      <a class="nav-item" href="/analytics.html" data-page="analytics.html"><span class="nav-icon">📊</span> Risk Analytics</a>
+      <div class="nav-section-title">Account</div>
+      <a class="nav-item" href="/profile.html" data-page="profile.html"><span class="nav-icon">👤</span> Profile</a>
+      <a class="nav-item" href="#" data-logout><span class="nav-icon">🚪</span> Logout</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar"></div>
+        <div class="user-info"><div class="user-name sidebar-username">User</div><div class="user-role">Patient</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="topbar">
+      <span class="topbar-title">💬 AI Medical Chatbot</span>
+      <div class="topbar-actions">
+        <span class="badge badge-green">🟢 AI Online</span>
+        <button class="btn btn-secondary btn-sm" onclick="clearChat()">🗑️ Clear Chat</button>
+      </div>
+    </div>
+
+    <div class="page-content" style="display:flex;gap:1.5rem;align-items:start;height:calc(100vh - 68px - 2rem);">
+
+      <!-- Suggestions Panel -->
+      <div style="width:260px;flex-shrink:0;display:flex;flex-direction:column;gap:1rem;">
+        <div class="card card-sm">
+          <h4 class="mb-2">💡 Sample Questions</h4>
+          <div style="display:flex;flex-direction:column;gap:0.5rem;">
+            <button class="btn btn-secondary btn-sm" style="text-align:left;justify-content:flex-start;" onclick="sendSuggestion('What are the symptoms of diabetes?')">What is diabetes?</button>
+            <button class="btn btn-secondary btn-sm" style="text-align:left;justify-content:flex-start;" onclick="sendSuggestion('What is a normal blood pressure range?')">Normal blood pressure?</button>
+            <button class="btn btn-secondary btn-sm" style="text-align:left;justify-content:flex-start;" onclick="sendSuggestion('How can I improve my heart health?')">Heart health tips</button>
+            <button class="btn btn-secondary btn-sm" style="text-align:left;justify-content:flex-start;" onclick="sendSuggestion('What is a healthy BMI range?')">Healthy BMI range</button>
+            <button class="btn btn-secondary btn-sm" style="text-align:left;justify-content:flex-start;" onclick="sendSuggestion('How much exercise should I do per week?')">Exercise recommendation</button>
+            <button class="btn btn-secondary btn-sm" style="text-align:left;justify-content:flex-start;" onclick="sendSuggestion('What foods should I eat to lower cholesterol?')">Diet for cholesterol</button>
+            <button class="btn btn-secondary btn-sm" style="text-align:left;justify-content:flex-start;" onclick="sendSuggestion('How much sleep do I need?')">Sleep requirements</button>
+            <button class="btn btn-secondary btn-sm" style="text-align:left;justify-content:flex-start;" onclick="sendSuggestion('What are kidney disease symptoms?')">Kidney disease signs</button>
+          </div>
+        </div>
+        <div class="card card-sm">
+          <h4 class="mb-2">⚕️ Topics Covered</h4>
+          <div style="display:flex;flex-wrap:wrap;gap:0.4rem;">
+            <span class="badge badge-cyan">Diabetes</span>
+            <span class="badge badge-purple">Heart</span>
+            <span class="badge badge-green">Kidney</span>
+            <span class="badge badge-orange">Nutrition</span>
+            <span class="badge badge-cyan">Exercise</span>
+            <span class="badge badge-purple">Sleep</span>
+            <span class="badge badge-green">Liver</span>
+            <span class="badge badge-orange">Blood Pressure</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Panel -->
+      <div style="flex:1;display:flex;flex-direction:column;min-height:0;">
+        <div class="chat-messages" id="chatMessages">
+          <div class="chat-bubble bot">
+            👋 Hello! I'm <strong>MedBot</strong>, your AI medical assistant.<br/><br/>
+            I can answer questions about diseases, symptoms, nutrition, exercise, and general health. Ask me anything!<br/><br/>
+            <em style="color:var(--text-muted); font-size:0.8rem;">⚕️ For diagnosis and treatment, always consult a licensed physician.</em>
+          </div>
+        </div>
+        <div class="chat-input-bar">
+          <input type="text" id="chatInput" placeholder="Ask a health question… (e.g. What are signs of diabetes?)" autocomplete="off"/>
+          <button class="btn btn-primary" id="sendBtn">Send 🚀</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="/static/js/app.js"></script>
+<script>
+function sendSuggestion(text) {
+  const input = document.getElementById('chatInput');
+  input.value = text;
+  document.getElementById('sendBtn').click();
+}
+function clearChat() {
+  const container = document.getElementById('chatMessages');
+  container.innerHTML = `
+    <div class="chat-bubble bot">
+      Chat cleared. Ask me a new health question! 😊<br/>
+      <em style="color:var(--text-muted);font-size:0.8rem;">⚕️ For diagnosis and treatment, always consult a licensed physician.</em>
+    </div>`;
+}
+</script>
+</body>
+</html>

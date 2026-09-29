@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Risk Analytics — MedPredict</title>
+  <meta name="description" content="Compute your comprehensive disease risk score from biometric data with AI-powered analytics and visual risk meter."/>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo"><div class="logo-icon">🧬</div><span class="logo-text">MedPredict</span></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Main</div>
+      <a class="nav-item" href="/dashboard.html" data-page="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a class="nav-item" href="/disease_prediction.html" data-page="disease_prediction.html"><span class="nav-icon">🧬</span> Disease Prediction</a>
+      <a class="nav-item" href="/image_prediction.html" data-page="image_prediction.html"><span class="nav-icon">🔬</span> Image Analysis</a>
+      <a class="nav-item" href="/upload_report.html" data-page="upload_report.html"><span class="nav-icon">📄</span> Report Analysis</a>
+      <div class="nav-section-title">AI Tools</div>
+      <a class="nav-item" href="/chatbot.html" data-page="chatbot.html"><span class="nav-icon">💬</span> AI Chatbot</a>
+      <a class="nav-item" href="/doctor_recommendation.html" data-page="doctor_recommendation.html"><span class="nav-icon">👨‍⚕️</span> Doctor Finder</a>
+      <a class="nav-item" href="/health_tips.html" data-page="health_tips.html"><span class="nav-icon">💡</span> Health Tips</a>
+      <a class="nav-item" href="/analytics.html" data-page="analytics.html"><span class="nav-icon">📊</span> Risk Analytics</a>
+      <div class="nav-section-title">Account</div>
+      <a class="nav-item" href="/profile.html" data-page="profile.html"><span class="nav-icon">👤</span> Profile</a>
+      <a class="nav-item" href="#" data-logout><span class="nav-icon">🚪</span> Logout</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar"></div>
+        <div class="user-info"><div class="user-name sidebar-username">User</div><div class="user-role">Patient</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="topbar">
+      <span class="topbar-title">📊 Risk Analytics Dashboard</span>
+      <div class="topbar-actions">
+        <span class="badge badge-orange">⚡ AI Risk Engine</span>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;">
+
+        <!-- Input -->
+        <div>
+          <div class="card mb-3" style="background:linear-gradient(135deg,rgba(245,158,11,0.07),rgba(239,68,68,0.04));border-color:rgba(245,158,11,0.2);">
+            <h3 class="mb-1">⚡ AI Risk Calculator</h3>
+            <p class="text-sm text-muted mt-1">Enter your biometric values. The AI computes a comprehensive risk score (0–100) and identifies abnormal factors.</p>
+          </div>
+
+          <div class="card">
+            <h3 class="mb-3">Enter Biometric Values</h3>
+            <form id="riskForm">
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label>Age (years)</label>
+                  <input type="number" name="age" placeholder="e.g. 45" min="1" max="120"/>
+                </div>
+                <div class="form-group">
+                  <label>BMI (kg/m²)</label>
+                  <input type="number" name="bmi" placeholder="e.g. 28.0" step="0.1"/>
+                </div>
+                <div class="form-group">
+                  <label>Glucose (mg/dL)</label>
+                  <input type="number" name="glucose" placeholder="e.g. 110"/>
+                </div>
+                <div class="form-group">
+                  <label>Blood Pressure (mmHg)</label>
+                  <input type="number" name="blood_pressure" placeholder="e.g. 90"/>
+                </div>
+                <div class="form-group">
+                  <label>Cholesterol (mg/dL)</label>
+                  <input type="number" name="cholesterol" placeholder="e.g. 220"/>
+                </div>
+                <div class="form-group">
+                  <label>Heart Rate (bpm)</label>
+                  <input type="number" name="heart_rate" placeholder="e.g. 85"/>
+                </div>
+                <div class="form-group">
+                  <label>Hemoglobin (g/dL)</label>
+                  <input type="number" name="hemoglobin" placeholder="e.g. 13.0" step="0.1"/>
+                </div>
+                <div class="form-group">
+                  <label>Creatinine (mg/dL)</label>
+                  <input type="number" name="creatinine" placeholder="e.g. 1.1" step="0.1"/>
+                </div>
+                <div class="form-group">
+                  <label>Triglycerides (mg/dL)</label>
+                  <input type="number" name="triglycerides" placeholder="e.g. 140"/>
+                </div>
+                <div class="form-group">
+                  <label>Urea (mg/dL)</label>
+                  <input type="number" name="urea" placeholder="e.g. 25"/>
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-secondary btn-sm mb-2" onclick="loadRiskPreset('moderate')">📋 Load Moderate Risk Example</button>
+              <button type="submit" class="btn btn-primary btn-full btn-lg">
+                ⚡ Calculate Risk Score
+              </button>
+            </form>
+          </div>
+
+          <!-- Risk Level Guide -->
+          <div class="card mt-3">
+            <h4 class="mb-2">📊 Risk Level Reference</h4>
+            <div style="display:flex;flex-direction:column;gap:0.5rem;">
+              <div class="explanation-item" style="border-left:3px solid var(--accent-green);padding-left:1rem;">
+                <strong style="color:var(--accent-green);">🟢 Low (0–20)</strong> — Excellent biometrics, maintain lifestyle
+              </div>
+              <div class="explanation-item" style="border-left:3px solid var(--accent-orange);padding-left:1rem;">
+                <strong style="color:var(--accent-orange);">🟡 Moderate (20–50)</strong> — Some values elevated, lifestyle changes advised
+              </div>
+              <div class="explanation-item" style="border-left:3px solid #f97316;padding-left:1rem;">
+                <strong style="color:#f97316;">🟠 High (50–75)</strong> — Multiple risk factors, physician consultation required
+              </div>
+              <div class="explanation-item" style="border-left:3px solid var(--accent-red);padding-left:1rem;">
+                <strong style="color:var(--accent-red);">🔴 Critical (75–100)</strong> — Urgent medical attention needed
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div>
+          <div id="riskResult" class="hidden"></div>
+
+          <!-- Charts placeholder -->
+          <div class="card mb-3" id="riskChartCard" style="display:none;">
+            <h4 class="mb-2">Factor Analysis</h4>
+            <canvas id="riskRadar" height="250"></canvas>
+          </div>
+
+          <div class="card" id="riskPlaceholder">
+            <div class="text-center" style="padding:3rem 1rem;">
+              <div style="font-size:4rem;margin-bottom:1rem;opacity:0.4;">📊</div>
+              <h3 class="mb-2">Awaiting Input</h3>
+              <p class="text-muted">Enter your biometric values and click Calculate to see your comprehensive risk score with factor-by-factor analysis.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="/static/js/app.js"></script>
+<script>
+function loadRiskPreset(type) {
+  const presets = {
+    moderate: { age: 48, bmi: 27.5, glucose: 115, blood_pressure: 92,
+      cholesterol: 225, heart_rate: 82, hemoglobin: 13.5, creatinine: 1.1,
+      triglycerides: 155, urea: 22 }
+  };
+  const data = presets[type] || {};
+  for (const [k, v] of Object.entries(data)) {
+    const el = document.querySelector(`[name="${k}"]`);
+    if (el) el.value = v;
+  }
+}
+
+// Extended risk display to also show radar chart
+const _origDisplayRisk = window.displayRisk;
+function displayRisk(data, container) {
+  // Call original
+  if (window._origDisplayRiskFn) window._origDisplayRiskFn(data, container);
+
+  // Show radar chart if we have risk factors
+  const factors = data.risk_factors || [];
+  if (factors.length >= 3) {
+    const chartCard = document.getElementById('riskChartCard');
+    chartCard.style.display = '';
+    document.getElementById('riskPlaceholder').style.display = 'none';
+
+    const labels = factors.map(f => f.factor);
+    const vals = factors.map(f => {
+      if (f.status === 'NORMAL') return 20;
+      if (f.status === 'HIGH')   return 75;
+      return 30;
+    });
+    const existingChart = Chart.getChart('riskRadar');
+    if (existingChart) existingChart.destroy();
+    new Chart(document.getElementById('riskRadar'), {
+      type: 'radar',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Risk Level',
+          data: vals,
+          borderColor: '#00e5ff',
+          backgroundColor: 'rgba(0,229,255,0.1)',
+          pointBackgroundColor: '#00e5ff',
+          borderWidth: 2
+        }]
+      },
+      options: {
+        scales: {
+          r: {
+            ticks: { color: '#8ba3c0', backdropColor: 'transparent' },
+            grid:  { color: 'rgba(255,255,255,0.08)' },
+            angleLines: { color: 'rgba(255,255,255,0.08)' },
+            pointLabels: { color: '#8ba3c0', font: { family: 'Inter', size: 11 } }
+          }
+        },
+        plugins: { legend: { labels: { color: '#8ba3c0' } } }
+      }
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  window._origDisplayRiskFn = window.displayRisk;
+  window.displayRisk = displayRisk;
+});
+</script>
+</body>
+</html>

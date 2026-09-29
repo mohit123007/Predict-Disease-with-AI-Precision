@@ -1,0 +1,17 @@
+# ── Core Web Framework ─────────────────────────────────────
+fastapi
+uvicorn[standard]
+python-multipart
+jinja2
+
+# ── Authentication ─────────────────────────────────────────
+python-jose[cryptography]
+passlib[bcrypt]
+
+# ── Data validation ────────────────────────────────────────
+pydantic
+
+# ── Machine Learning ───────────────────────────────────────
+joblib
+scikit-learn
+numpy

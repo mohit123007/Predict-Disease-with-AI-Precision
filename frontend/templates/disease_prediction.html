@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Disease Prediction — MedPredict</title>
+  <meta name="description" content="AI-powered tabular disease prediction. Enter your health vitals to get an instant risk assessment."/>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">🧬</div>
+      <span class="logo-text">MedPredict</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Main</div>
+      <a class="nav-item" href="/dashboard.html" data-page="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a class="nav-item" href="/disease_prediction.html" data-page="disease_prediction.html"><span class="nav-icon">🧬</span> Disease Prediction</a>
+      <a class="nav-item" href="/image_prediction.html" data-page="image_prediction.html"><span class="nav-icon">🔬</span> Image Analysis</a>
+      <a class="nav-item" href="/upload_report.html" data-page="upload_report.html"><span class="nav-icon">📄</span> Report Analysis</a>
+      <div class="nav-section-title">AI Tools</div>
+      <a class="nav-item" href="/chatbot.html" data-page="chatbot.html"><span class="nav-icon">💬</span> AI Chatbot</a>
+      <a class="nav-item" href="/doctor_recommendation.html" data-page="doctor_recommendation.html"><span class="nav-icon">👨‍⚕️</span> Doctor Finder</a>
+      <a class="nav-item" href="/health_tips.html" data-page="health_tips.html"><span class="nav-icon">💡</span> Health Tips</a>
+      <a class="nav-item" href="/analytics.html" data-page="analytics.html"><span class="nav-icon">📊</span> Risk Analytics</a>
+      <div class="nav-section-title">Account</div>
+      <a class="nav-item" href="/profile.html" data-page="profile.html"><span class="nav-icon">👤</span> Profile</a>
+      <a class="nav-item" href="#" data-logout><span class="nav-icon">🚪</span> Logout</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar"></div>
+        <div class="user-info">
+          <div class="user-name sidebar-username">User</div>
+          <div class="user-role">Patient</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="topbar">
+      <span class="topbar-title">🧬 Disease Prediction</span>
+      <div class="topbar-actions">
+        <span class="badge badge-purple">🤖 XGBoost + Rule AI</span>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;">
+
+        <!-- Input Form -->
+        <div>
+          <div class="card mb-3">
+            <h3 class="mb-1">Select Disease to Screen</h3>
+            <p class="text-sm text-muted mb-3">The AI automatically detects the disease type based on your inputs. Select a preset to auto-fill fields.</p>
+            <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+              <button class="btn btn-secondary btn-sm" onclick="setPreset('diabetes')">🩸 Diabetes</button>
+              <button class="btn btn-secondary btn-sm" onclick="setPreset('heart')">❤️ Heart Disease</button>
+              <button class="btn btn-secondary btn-sm" onclick="setPreset('kidney')">🫘 Kidney Disease</button>
+              <button class="btn btn-secondary btn-sm" onclick="clearForm()">🗑️ Clear All</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="mb-3">Enter Health Vitals</h3>
+            <form id="predictForm">
+              <!-- Diabetes Fields -->
+              <div id="diabetesFields">
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label>Age (years)</label>
+                    <input type="number" name="age" id="age" placeholder="e.g. 35" min="1" max="120" step="1"/>
+                  </div>
+                  <div class="form-group">
+                    <label>BMI (kg/m²)</label>
+                    <input type="number" name="bmi" id="bmi" placeholder="e.g. 26.5" step="0.1"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Glucose (mg/dL)</label>
+                    <input type="number" name="glucose" id="glucose" placeholder="e.g. 110" min="0" max="500"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Blood Pressure (mmHg)</label>
+                    <input type="number" name="blood_pressure" id="blood_pressure" placeholder="e.g. 80" min="0" max="200"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Insulin (μU/mL)</label>
+                    <input type="number" name="insulin" id="insulin" placeholder="e.g. 85" min="0" max="900"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Skin Thickness (mm)</label>
+                    <input type="number" name="skin_thickness" id="skin_thickness" placeholder="e.g. 20" min="0" max="100"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Pregnancies</label>
+                    <input type="number" name="pregnancies" id="pregnancies" placeholder="e.g. 1" min="0" max="20" step="1"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Diabetes Pedigree Function</label>
+                    <input type="number" name="diabetes_pedigree_function" id="dpf" placeholder="e.g. 0.45" step="0.01" min="0" max="3"/>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Heart Disease Extra Fields -->
+              <div id="heartFields" style="display:none;">
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label>Cholesterol (mg/dL)</label>
+                    <input type="number" name="cholesterol" id="cholesterol" placeholder="e.g. 220"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Max Heart Rate</label>
+                    <input type="number" name="max_heart_rate" id="max_heart_rate" placeholder="e.g. 150"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Chest Pain (0=No, 1=Yes)</label>
+                    <input type="number" name="chest_pain" id="chest_pain" placeholder="0 or 1" min="0" max="1"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Exercise Angina (0=No, 1=Yes)</label>
+                    <input type="number" name="exercise_angina" id="exercise_angina" placeholder="0 or 1" min="0" max="1"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Fasting Blood Sugar (mg/dL)</label>
+                    <input type="number" name="fasting_blood_sugar" id="fasting_blood_sugar" placeholder="e.g. 100"/>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Kidney Disease Extra Fields -->
+              <div id="kidneyFields" style="display:none;">
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label>Specific Gravity</label>
+                    <input type="number" name="specific_gravity" id="specific_gravity" placeholder="e.g. 1.015" step="0.001" min="1.000" max="1.030"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Albumin (0–5 scale)</label>
+                    <input type="number" name="albumin" id="albumin" placeholder="e.g. 1" min="0" max="5" step="0.1"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Blood Urea (mg/dL)</label>
+                    <input type="number" name="blood_urea" id="blood_urea" placeholder="e.g. 36"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Serum Creatinine (mg/dL)</label>
+                    <input type="number" name="serum_creatinine" id="serum_creatinine" placeholder="e.g. 1.2" step="0.1"/>
+                  </div>
+                  <div class="form-group">
+                    <label>Hemoglobin (g/dL)</label>
+                    <input type="number" name="hemoglobin" id="hemoglobin" placeholder="e.g. 14.5" step="0.1"/>
+                  </div>
+                </div>
+              </div>
+
+              <div class="alert alert-info mt-2 mb-3" style="font-size:0.8rem;">
+                ℹ️ Leave irrelevant fields empty. The AI auto-detects the disease type from filled fields.
+              </div>
+              <button type="submit" class="btn btn-primary btn-full btn-lg" id="predictBtn">
+                🧠 Run AI Prediction
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Results Panel -->
+        <div>
+          <div class="card mb-3">
+            <h3 class="mb-2">🧠 How It Works</h3>
+            <p class="text-sm text-muted mb-2">Our AI pipeline:</p>
+            <div style="display:flex;flex-direction:column;gap:0.5rem;">
+              <div class="explanation-item">1. Input vitals are normalized and validated</div>
+              <div class="explanation-item">2. XGBoost / rule-based model computes probability</div>
+              <div class="explanation-item">3. Explainable AI identifies key influencing factors</div>
+              <div class="explanation-item">4. Risk score and confidence are computed</div>
+              <div class="explanation-item">5. Result is saved to your prediction history</div>
+            </div>
+          </div>
+
+          <div id="predictResult" class="hidden"></div>
+
+          <!-- Example Normal Values Reference -->
+          <div class="card mt-3" style="font-size:0.8rem;">
+            <h4 class="mb-2">📋 Normal Reference Values</h4>
+            <table>
+              <thead><tr><th>Metric</th><th>Normal Range</th></tr></thead>
+              <tbody>
+                <tr><td>Glucose</td><td>70 – 100 mg/dL</td></tr>
+                <tr><td>BMI</td><td>18.5 – 24.9 kg/m²</td></tr>
+                <tr><td>Blood Pressure</td><td>60 – 90 mmHg</td></tr>
+                <tr><td>Insulin</td><td>16 – 166 μU/mL</td></tr>
+                <tr><td>Cholesterol</td><td>100 – 200 mg/dL</td></tr>
+                <tr><td>Creatinine</td><td>0.6 – 1.2 mg/dL</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="/static/js/app.js"></script>
+<script>
+const PRESETS = {
+  diabetes: {
+    age: 45, bmi: 29.1, glucose: 148, blood_pressure: 85,
+    insulin: 180, skin_thickness: 33, pregnancies: 3, diabetes_pedigree_function: 0.627
+  },
+  heart: {
+    age: 55, blood_pressure: 140, cholesterol: 280, max_heart_rate: 130,
+    chest_pain: 1, fasting_blood_sugar: 130, exercise_angina: 1
+  },
+  kidney: {
+    age: 60, blood_pressure: 100, specific_gravity: 1.010, albumin: 3,
+    blood_urea: 80, serum_creatinine: 3.5, hemoglobin: 9.5
+  }
+};
+
+function setPreset(type) {
+  clearForm();
+  const data = PRESETS[type] || {};
+  // Show relevant extra fields
+  document.getElementById('heartFields').style.display = type === 'heart' ? '' : 'none';
+  document.getElementById('kidneyFields').style.display = type === 'kidney' ? '' : 'none';
+  for (const [k, v] of Object.entries(data)) {
+    const el = document.querySelector(`[name="${k}"]`);
+    if (el) el.value = v;
+  }
+}
+
+function clearForm() {
+  document.getElementById('predictForm').reset();
+  document.getElementById('heartFields').style.display = 'none';
+  document.getElementById('kidneyFields').style.display = 'none';
+  document.getElementById('predictResult').classList.add('hidden');
+  document.getElementById('predictResult').innerHTML = '';
+}
+</script>
+</body>
+</html>

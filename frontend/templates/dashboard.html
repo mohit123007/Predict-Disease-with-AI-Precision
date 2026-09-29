@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Dashboard — MedPredict</title>
+  <meta name="description" content="Your MedPredict health dashboard: recent predictions, health stats, and AI tools."/>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body id="dashboardPage">
+<div class="orb orb-1"></div>
+<div class="app-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">🧬</div>
+      <span class="logo-text">MedPredict</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Main</div>
+      <a class="nav-item" href="/dashboard.html" data-page="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a class="nav-item" href="/disease_prediction.html" data-page="disease_prediction.html"><span class="nav-icon">🧬</span> Disease Prediction</a>
+      <a class="nav-item" href="/image_prediction.html" data-page="image_prediction.html"><span class="nav-icon">🔬</span> Image Analysis</a>
+      <a class="nav-item" href="/upload_report.html" data-page="upload_report.html"><span class="nav-icon">📄</span> Report Analysis</a>
+
+      <div class="nav-section-title">AI Tools</div>
+      <a class="nav-item" href="/chatbot.html" data-page="chatbot.html"><span class="nav-icon">💬</span> AI Chatbot</a>
+      <a class="nav-item" href="/doctor_recommendation.html" data-page="doctor_recommendation.html"><span class="nav-icon">👨‍⚕️</span> Doctor Finder</a>
+      <a class="nav-item" href="/health_tips.html" data-page="health_tips.html"><span class="nav-icon">💡</span> Health Tips</a>
+      <a class="nav-item" href="/analytics.html" data-page="analytics.html"><span class="nav-icon">📊</span> Risk Analytics</a>
+
+      <div class="nav-section-title">Account</div>
+      <a class="nav-item" href="/profile.html" data-page="profile.html"><span class="nav-icon">👤</span> Profile</a>
+      <a class="nav-item" href="#" data-logout><span class="nav-icon">🚪</span> Logout</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar"></div>
+        <div class="user-info">
+          <div class="user-name sidebar-username">User</div>
+          <div class="user-role">Patient</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="topbar">
+      <span class="topbar-title">📊 Dashboard</span>
+      <div class="topbar-actions">
+        <span class="badge badge-green" id="dashStatusBadge">● System Online</span>
+        <a href="/disease_prediction.html" class="btn btn-primary btn-sm">+ New Prediction</a>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <!-- Welcome Banner -->
+      <div class="card mb-4" style="background:linear-gradient(135deg,rgba(0,229,255,0.08),rgba(139,92,246,0.06));border-color:rgba(0,229,255,0.2);">
+        <div class="flex items-center justify-between" style="flex-wrap:wrap;gap:1rem;">
+          <div>
+            <h2>Welcome back, <span class="gradient-text sidebar-username">User</span> 👋</h2>
+            <p class="mt-1">Your AI health assistant is ready. Run a prediction or explore your health data.</p>
+          </div>
+          <a href="/disease_prediction.html" class="btn btn-primary">🚀 Start Prediction</a>
+        </div>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon cyan">🧬</div>
+          <div class="stat-info">
+            <div class="stat-value" data-count="0" id="statTotal">0</div>
+            <div class="stat-label">Total Predictions</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">✅</div>
+          <div class="stat-info">
+            <div class="stat-value" id="statHealthy">—</div>
+            <div class="stat-label">No Disease Found</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red">⚠️</div>
+          <div class="stat-info">
+            <div class="stat-value" id="statDetected">—</div>
+            <div class="stat-label">Risk Detected</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon purple">🤖</div>
+          <div class="stat-info">
+            <div class="stat-value">7+</div>
+            <div class="stat-label">AI Modules Active</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem;">
+        <div class="card">
+          <h3 class="mb-3">Disease Detection Summary</h3>
+          <canvas id="diseaseChart" height="200"></canvas>
+        </div>
+        <div class="card">
+          <h3 class="mb-3">Prediction Timeline</h3>
+          <canvas id="timelineChart" height="200"></canvas>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <h3 class="mb-3">🚀 Quick Actions</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:2rem;">
+        <a href="/disease_prediction.html" class="card card-sm" style="text-decoration:none;cursor:pointer;">
+          <div style="font-size:2rem;margin-bottom:0.75rem;">🧬</div>
+          <h4>Disease Prediction</h4>
+          <p class="text-sm">Enter vitals → get disease risk score</p>
+        </a>
+        <a href="/image_prediction.html" class="card card-sm" style="text-decoration:none;cursor:pointer;">
+          <div style="font-size:2rem;margin-bottom:0.75rem;">🔬</div>
+          <h4>Medical Image AI</h4>
+          <p class="text-sm">Upload X-ray or scan for CNN analysis</p>
+        </a>
+        <a href="/chatbot.html" class="card card-sm" style="text-decoration:none;cursor:pointer;">
+          <div style="font-size:2rem;margin-bottom:0.75rem;">💬</div>
+          <h4>AI Health Chatbot</h4>
+          <p class="text-sm">Ask your health questions</p>
+        </a>
+        <a href="/upload_report.html" class="card card-sm" style="text-decoration:none;cursor:pointer;">
+          <div style="font-size:2rem;margin-bottom:0.75rem;">📄</div>
+          <h4>Report Analysis</h4>
+          <p class="text-sm">Parse and analyze medical reports</p>
+        </a>
+        <a href="/doctor_recommendation.html" class="card card-sm" style="text-decoration:none;cursor:pointer;">
+          <div style="font-size:2rem;margin-bottom:0.75rem;">👨‍⚕️</div>
+          <h4>Find a Specialist</h4>
+          <p class="text-sm">Get doctor recommendations by symptom</p>
+        </a>
+        <a href="/analytics.html" class="card card-sm" style="text-decoration:none;cursor:pointer;">
+          <div style="font-size:2rem;margin-bottom:0.75rem;">📊</div>
+          <h4>Risk Analytics</h4>
+          <p class="text-sm">Compute your comprehensive risk score</p>
+        </a>
+      </div>
+
+      <!-- Recent History -->
+      <div class="card">
+        <div class="flex items-center justify-between mb-3">
+          <h3>Recent Predictions</h3>
+          <span class="badge badge-cyan" id="historyCount">Loading…</span>
+        </div>
+        <div id="historyTable">
+          <div class="text-center text-muted" style="padding:2rem;">
+            <div style="font-size:2rem;margin-bottom:0.5rem;">📭</div>
+            <p>No predictions yet. <a href="/disease_prediction.html" style="color:var(--accent-cyan)">Run your first prediction</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="/static/js/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  // Load history stats
+  try {
+    const res = await apiFetch('/predict/history');
+    const data = await res.json();
+    if (res.ok) {
+      const stats = data.stats || {};
+      document.getElementById('statTotal').textContent = stats.total_predictions || 0;
+      const counts = stats.disease_counts || {};
+      const healthy = counts['no_disease_detected'] || 0;
+      const detected = (stats.total_predictions || 0) - healthy;
+      document.getElementById('statHealthy').textContent = healthy;
+      document.getElementById('statDetected').textContent = detected;
+      document.getElementById('historyCount').textContent = `${stats.total_predictions || 0} records`;
+
+      // Populate history table
+      const history = data.history || [];
+      if (history.length > 0) {
+        const rows = history.slice(0, 8).map(h => {
+          const p = h.prediction || {};
+          const ts = new Date(h.timestamp || Date.now()).toLocaleString();
+          const badge = p.disease === 'no_disease_detected'
+            ? '<span class="badge badge-green">✅ Healthy</span>'
+            : `<span class="badge badge-red">⚠️ ${(p.disease || 'Unknown').replace(/_/g,' ')}</span>`;
+          return `<tr>
+            <td>${ts}</td>
+            <td>${badge}</td>
+            <td>${p.confidence ? p.confidence + '%' : '—'}</td>
+            <td>${p.model || 'AI Model'}</td>
+          </tr>`;
+        }).join('');
+        document.getElementById('historyTable').innerHTML = `
+          <div class="table-wrap"><table>
+            <thead><tr><th>Timestamp</th><th>Result</th><th>Confidence</th><th>Model</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table></div>`;
+      }
+
+      // Disease Donut Chart
+      const diseaseLabels = Object.keys(counts).map(k => k.replace(/_/g,' '));
+      const diseaseData = Object.values(counts);
+      new Chart(document.getElementById('diseaseChart'), {
+        type: 'doughnut',
+        data: {
+          labels: diseaseLabels.length ? diseaseLabels : ['No data yet'],
+          datasets: [{ data: diseaseData.length ? diseaseData : [1], backgroundColor: ['#00e5ff','#8b5cf6','#ef4444','#10b981','#f59e0b'], borderWidth: 0 }]
+        },
+        options: { plugins: { legend: { labels: { color: '#8ba3c0', font: { family: 'Inter' } } } }, cutout: '65%' }
+      });
+    }
+  } catch(e) {}
+
+  // Timeline chart (static demo data)
+  new Chart(document.getElementById('timelineChart'), {
+    type: 'line',
+    data: {
+      labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+      datasets: [{
+        label: 'Predictions',
+        data: [1,0,2,1,3,1,2],
+        borderColor: '#00e5ff', backgroundColor: 'rgba(0,229,255,0.08)',
+        borderWidth: 2, fill: true, tension: 0.4, pointBackgroundColor: '#00e5ff'
+      }]
+    },
+    options: {
+      scales: {
+        x: { ticks: { color: '#8ba3c0' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+        y: { ticks: { color: '#8ba3c0' }, grid: { color: 'rgba(255,255,255,0.05)' }, beginAtZero: true }
+      },
+      plugins: { legend: { labels: { color: '#8ba3c0' } } }
+    }
+  });
+});
+</script>
+</body>
+</html>

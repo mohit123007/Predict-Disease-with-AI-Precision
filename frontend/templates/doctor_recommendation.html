@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Doctor Recommendation — MedPredict</title>
+  <meta name="description" content="Describe your symptoms and let AI recommend the right medical specialist for you."/>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo"><div class="logo-icon">🧬</div><span class="logo-text">MedPredict</span></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Main</div>
+      <a class="nav-item" href="/dashboard.html" data-page="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a class="nav-item" href="/disease_prediction.html" data-page="disease_prediction.html"><span class="nav-icon">🧬</span> Disease Prediction</a>
+      <a class="nav-item" href="/image_prediction.html" data-page="image_prediction.html"><span class="nav-icon">🔬</span> Image Analysis</a>
+      <a class="nav-item" href="/upload_report.html" data-page="upload_report.html"><span class="nav-icon">📄</span> Report Analysis</a>
+      <div class="nav-section-title">AI Tools</div>
+      <a class="nav-item" href="/chatbot.html" data-page="chatbot.html"><span class="nav-icon">💬</span> AI Chatbot</a>
+      <a class="nav-item" href="/doctor_recommendation.html" data-page="doctor_recommendation.html"><span class="nav-icon">👨‍⚕️</span> Doctor Finder</a>
+      <a class="nav-item" href="/health_tips.html" data-page="health_tips.html"><span class="nav-icon">💡</span> Health Tips</a>
+      <a class="nav-item" href="/analytics.html" data-page="analytics.html"><span class="nav-icon">📊</span> Risk Analytics</a>
+      <div class="nav-section-title">Account</div>
+      <a class="nav-item" href="/profile.html" data-page="profile.html"><span class="nav-icon">👤</span> Profile</a>
+      <a class="nav-item" href="#" data-logout><span class="nav-icon">🚪</span> Logout</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar"></div>
+        <div class="user-info"><div class="user-name sidebar-username">User</div><div class="user-role">Patient</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="topbar">
+      <span class="topbar-title">👨‍⚕️ Doctor & Specialist Finder</span>
+      <div class="topbar-actions">
+        <span class="badge badge-green">🏥 AI Recommendation</span>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;">
+
+        <!-- Input -->
+        <div>
+          <div class="card mb-3" style="background:linear-gradient(135deg,rgba(16,185,129,0.07),rgba(0,229,255,0.04));border-color:rgba(16,185,129,0.2);">
+            <h3 class="mb-1">Find the Right Specialist</h3>
+            <p class="text-sm text-muted mt-1">Describe your symptoms or health concerns and our AI will match you with the most appropriate medical specialist.</p>
+          </div>
+
+          <div class="card">
+            <h3 class="mb-3">Enter Your Symptoms</h3>
+            <form id="doctorForm">
+              <div class="form-group">
+                <label>Symptoms (separate with commas)</label>
+                <textarea id="symptomsInput" name="symptoms" rows="5"
+                  placeholder="e.g. chest pain, shortness of breath, fatigue&#10;or: skin rash, itching, redness&#10;or: headache, dizziness, memory loss"></textarea>
+              </div>
+
+              <div class="mb-3">
+                <p class="text-sm text-muted mb-2">💡 Quick symptom tags:</p>
+                <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+                  <button type="button" class="badge badge-cyan" style="cursor:pointer;border:none;" onclick="addSymptom('chest pain')">+ chest pain</button>
+                  <button type="button" class="badge badge-purple" style="cursor:pointer;border:none;" onclick="addSymptom('shortness of breath')">+ shortness of breath</button>
+                  <button type="button" class="badge badge-green" style="cursor:pointer;border:none;" onclick="addSymptom('fatigue')">+ fatigue</button>
+                  <button type="button" class="badge badge-orange" style="cursor:pointer;border:none;" onclick="addSymptom('headache')">+ headache</button>
+                  <button type="button" class="badge badge-cyan" style="cursor:pointer;border:none;" onclick="addSymptom('joint pain')">+ joint pain</button>
+                  <button type="button" class="badge badge-purple" style="cursor:pointer;border:none;" onclick="addSymptom('skin rash')">+ skin rash</button>
+                  <button type="button" class="badge badge-green" style="cursor:pointer;border:none;" onclick="addSymptom('stomach pain')">+ stomach pain</button>
+                  <button type="button" class="badge badge-orange" style="cursor:pointer;border:none;" onclick="addSymptom('diabetes')">+ diabetes</button>
+                  <button type="button" class="badge badge-cyan" style="cursor:pointer;border:none;" onclick="addSymptom('kidney pain')">+ kidney pain</button>
+                  <button type="button" class="badge badge-purple" style="cursor:pointer;border:none;" onclick="addSymptom('depression')">+ depression</button>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-full btn-lg">
+                🔍 Find My Specialist
+              </button>
+            </form>
+          </div>
+
+          <!-- Specialists Directory -->
+          <div class="card mt-3">
+            <h4 class="mb-2">🏥 Specialist Directory</h4>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Specialist</th><th>Treats</th></tr></thead>
+                <tbody>
+                  <tr><td>❤️ Cardiologist</td><td>Heart disease, BP, cholesterol</td></tr>
+                  <tr><td>🫁 Pulmonologist</td><td>Lungs, asthma, pneumonia</td></tr>
+                  <tr><td>🧠 Neurologist</td><td>Brain, headaches, seizures</td></tr>
+                  <tr><td>🦴 Orthopedist</td><td>Bones, joints, fractures</td></tr>
+                  <tr><td>🔬 Gastroenterologist</td><td>Stomach, liver, intestines</td></tr>
+                  <tr><td>⚗️ Endocrinologist</td><td>Diabetes, thyroid, hormones</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div>
+          <div id="doctorResult" class="hidden"></div>
+          <div class="card" id="doctorPlaceholder">
+            <div class="text-center" style="padding:3rem 1rem;">
+              <div style="font-size:4rem;margin-bottom:1rem;opacity:0.4;">👨‍⚕️</div>
+              <h3 class="mb-2">Describe Your Symptoms</h3>
+              <p class="text-muted">Enter your symptoms on the left and our AI will recommend the most appropriate medical specialist for your condition.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="/static/js/app.js"></script>
+<script>
+function addSymptom(symptom) {
+  const ta = document.getElementById('symptomsInput');
+  const current = ta.value.trim();
+  ta.value = current ? current + ', ' + symptom : symptom;
+}
+</script>
+</body>
+</html>

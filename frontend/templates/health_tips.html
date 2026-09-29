@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Health Tips & Score — MedPredict</title>
+  <meta name="description" content="Get your AI-computed health score and personalized diet, exercise, sleep, and lifestyle recommendations."/>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+</head>
+<body>
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo"><div class="logo-icon">🧬</div><span class="logo-text">MedPredict</span></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Main</div>
+      <a class="nav-item" href="/dashboard.html" data-page="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a class="nav-item" href="/disease_prediction.html" data-page="disease_prediction.html"><span class="nav-icon">🧬</span> Disease Prediction</a>
+      <a class="nav-item" href="/image_prediction.html" data-page="image_prediction.html"><span class="nav-icon">🔬</span> Image Analysis</a>
+      <a class="nav-item" href="/upload_report.html" data-page="upload_report.html"><span class="nav-icon">📄</span> Report Analysis</a>
+      <div class="nav-section-title">AI Tools</div>
+      <a class="nav-item" href="/chatbot.html" data-page="chatbot.html"><span class="nav-icon">💬</span> AI Chatbot</a>
+      <a class="nav-item" href="/doctor_recommendation.html" data-page="doctor_recommendation.html"><span class="nav-icon">👨‍⚕️</span> Doctor Finder</a>
+      <a class="nav-item" href="/health_tips.html" data-page="health_tips.html"><span class="nav-icon">💡</span> Health Tips</a>
+      <a class="nav-item" href="/analytics.html" data-page="analytics.html"><span class="nav-icon">📊</span> Risk Analytics</a>
+      <div class="nav-section-title">Account</div>
+      <a class="nav-item" href="/profile.html" data-page="profile.html"><span class="nav-icon">👤</span> Profile</a>
+      <a class="nav-item" href="#" data-logout><span class="nav-icon">🚪</span> Logout</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar"></div>
+        <div class="user-info"><div class="user-name sidebar-username">User</div><div class="user-role">Patient</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="topbar">
+      <span class="topbar-title">💡 Health Score & Tips</span>
+      <div class="topbar-actions">
+        <span class="badge badge-green">🌿 Lifestyle AI</span>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;">
+
+        <!-- Input Form -->
+        <div>
+          <div class="card mb-3" style="background:linear-gradient(135deg,rgba(16,185,129,0.07),rgba(0,229,255,0.04));border-color:rgba(16,185,129,0.2);">
+            <h3 class="mb-1">Compute Your Health Score</h3>
+            <p class="text-sm text-muted mt-1">Enter your biometric values and lifestyle data. Our AI computes a 0–100 health score and gives personalized recommendations.</p>
+          </div>
+
+          <div class="card">
+            <h3 class="mb-3">Biometric & Lifestyle Data</h3>
+            <form id="healthScoreForm">
+              <h4 class="mb-2 text-muted" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.08em;">🩺 Clinical Vitals</h4>
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label>BMI (kg/m²)</label>
+                  <input type="number" name="bmi" placeholder="e.g. 23.5" step="0.1" min="10" max="50"/>
+                </div>
+                <div class="form-group">
+                  <label>Glucose (mg/dL)</label>
+                  <input type="number" name="glucose" placeholder="e.g. 95" min="0" max="500"/>
+                </div>
+                <div class="form-group">
+                  <label>Blood Pressure (mmHg)</label>
+                  <input type="number" name="blood_pressure" placeholder="e.g. 75" min="0" max="200"/>
+                </div>
+                <div class="form-group">
+                  <label>Heart Rate (bpm)</label>
+                  <input type="number" name="heart_rate" placeholder="e.g. 72" min="40" max="200"/>
+                </div>
+                <div class="form-group">
+                  <label>Cholesterol (mg/dL)</label>
+                  <input type="number" name="cholesterol" placeholder="e.g. 185" min="50" max="600"/>
+                </div>
+                <div class="form-group">
+                  <label>Hemoglobin (g/dL)</label>
+                  <input type="number" name="hemoglobin" placeholder="e.g. 14.0" step="0.1" min="5" max="25"/>
+                </div>
+              </div>
+
+              <h4 class="mb-2 mt-2 text-muted" style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.08em;">🌿 Lifestyle Metrics</h4>
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label>Sleep (hours/night)</label>
+                  <input type="number" name="sleep_hours" placeholder="e.g. 7.5" step="0.5" min="0" max="24"/>
+                </div>
+                <div class="form-group">
+                  <label>Water Intake (litres/day)</label>
+                  <input type="number" name="water_intake" placeholder="e.g. 2.5" step="0.1" min="0" max="10"/>
+                </div>
+                <div class="form-group">
+                  <label>Exercise (min/week)</label>
+                  <input type="number" name="exercise_min" placeholder="e.g. 180" min="0" max="2000"/>
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-secondary btn-sm mb-2" onclick="loadHealthPreset()">📋 Load Example Data</button>
+              <button type="submit" class="btn btn-primary btn-full btn-lg">
+                💚 Compute Health Score
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Results Panel -->
+        <div>
+          <div id="healthResult" class="hidden"></div>
+
+          <!-- Static General Tips -->
+          <div class="card" id="generalTips">
+            <h3 class="mb-3">🌟 General Wellness Tips</h3>
+            <div style="display:flex;flex-direction:column;gap:0.75rem;">
+              <div class="card card-sm" style="display:flex;align-items:flex-start;gap:0.75rem;">
+                <span style="font-size:1.5rem;">🥗</span>
+                <div><h4>Balanced Diet</h4><p class="text-sm">Eat 5 servings of fruits & vegetables daily. Limit processed foods and refined sugar.</p></div>
+              </div>
+              <div class="card card-sm" style="display:flex;align-items:flex-start;gap:0.75rem;">
+                <span style="font-size:1.5rem;">🏃</span>
+                <div><h4>Regular Exercise</h4><p class="text-sm">150+ minutes of moderate aerobic activity per week. Strength training 2x/week.</p></div>
+              </div>
+              <div class="card card-sm" style="display:flex;align-items:flex-start;gap:0.75rem;">
+                <span style="font-size:1.5rem;">💧</span>
+                <div><h4>Hydration</h4><p class="text-sm">Drink 2–3 litres of water daily. More if physically active or in warm climate.</p></div>
+              </div>
+              <div class="card card-sm" style="display:flex;align-items:flex-start;gap:0.75rem;">
+                <span style="font-size:1.5rem;">😴</span>
+                <div><h4>Quality Sleep</h4><p class="text-sm">Adults need 7–9 hours nightly. Consistent sleep schedule improves overall health.</p></div>
+              </div>
+              <div class="card card-sm" style="display:flex;align-items:flex-start;gap:0.75rem;">
+                <span style="font-size:1.5rem;">🧘</span>
+                <div><h4>Stress Management</h4><p class="text-sm">Practice mindfulness, yoga, or deep breathing. Chronic stress raises disease risk.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="/static/js/app.js"></script>
+<script>
+function loadHealthPreset() {
+  const form = document.getElementById('healthScoreForm');
+  const vals = {bmi: 23.5, glucose: 92, blood_pressure: 76, heart_rate: 68,
+    cholesterol: 185, hemoglobin: 14.2, sleep_hours: 7.5, water_intake: 2.5, exercise_min: 200};
+  for (const [k, v] of Object.entries(vals)) {
+    const el = form.querySelector(`[name="${k}"]`);
+    if (el) el.value = v;
+  }
+}
+</script>
+</body>
+</html>

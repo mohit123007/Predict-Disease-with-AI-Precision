@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.env
+.venv/
+.venv-1/
+venv/
+models/
+uploads/
+generated_reports/
+*.db
+*.sqlite3
